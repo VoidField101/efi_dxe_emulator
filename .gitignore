@@ -1,3 +1,6 @@
 xcuserdata/
 project.xcworkspace/
 
+emulator
+efi_dxe_emulator/*.o
+
