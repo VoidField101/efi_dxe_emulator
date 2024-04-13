@@ -68,6 +68,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <wchar.h>
+#include <stddef.h>
 
 #include "pe_definitions.h"
 #include "efi_definitions.h"

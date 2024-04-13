@@ -68,7 +68,7 @@
 #include <stdlib.h>
 
 /* this allows us to set a message to CrashReporter when abort() is called */
-extern const char *__crashreporter_info__;
+const char *__crashreporter_info__;
 
 void *
 my_malloc(size_t size)
