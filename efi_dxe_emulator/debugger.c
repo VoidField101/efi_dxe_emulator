@@ -151,11 +151,11 @@ examine_mem_cmd(const char *exp, uc_engine *uc)
     expression = strsep(&local_exp, " ");
     /* extract target address */
     address = strsep(&local_exp, " ");
-    free(local_exp_ptr);
     
     if (expression == NULL || address == NULL)
     {
         ERROR_MSG("Missing arguments.");
+        free(local_exp_ptr);
         return 0;
     }
     
@@ -163,6 +163,7 @@ examine_mem_cmd(const char *exp, uc_engine *uc)
     if (errno == EINVAL || errno == ERANGE)
     {
         ERROR_MSG("Invalid argument(s).");
+        free(local_exp_ptr);
         return 0;
     }
 
@@ -170,6 +171,7 @@ examine_mem_cmd(const char *exp, uc_engine *uc)
     if (errno == EINVAL || errno == ERANGE)
     {
         ERROR_MSG("Invalid argument(s).");
+        free(local_exp_ptr);
         return 0;
     }
 
@@ -209,6 +211,7 @@ examine_mem_cmd(const char *exp, uc_engine *uc)
     }
     
     free(buffer);
+    free(local_exp_ptr);
     return 0;
 }
 
@@ -244,11 +247,11 @@ examine_register_cmd(const char *exp, uc_engine *uc)
     strsep(&local_exp, "/");
     expression = strsep(&local_exp, " ");
     arg_register = strsep(&local_exp, " ");
-    free(local_exp_ptr);
     
     if (expression == NULL || arg_register == NULL)
     {
         ERROR_MSG("Missing arguments.");
+        free(local_exp_ptr);
         return 0;
     }
     
@@ -256,6 +259,7 @@ examine_register_cmd(const char *exp, uc_engine *uc)
     if (errno == EINVAL || errno == ERANGE)
     {
         ERROR_MSG("Invalid argument(s).");
+        free(local_exp_ptr);
         return 0;
     }
     
@@ -271,6 +275,7 @@ examine_register_cmd(const char *exp, uc_engine *uc)
     else
     {
         DEBUG_MSG("Invalid register argument.");
+        free(local_exp_ptr);
         return 0;
     }
     
@@ -279,6 +284,7 @@ examine_register_cmd(const char *exp, uc_engine *uc)
     if (target_register == UC_X86_REG_INVALID)
     {
         ERROR_MSG("Invalid target register.");
+        free(local_exp_ptr);
         return 0;
     }
     
@@ -323,6 +329,7 @@ examine_register_cmd(const char *exp, uc_engine *uc)
     }
     
     free(buffer);
+    free(local_exp_ptr);
     return 0;
 }
 
@@ -454,11 +461,11 @@ set_register_cmd(const char *exp, uc_engine *uc)
     strsep(&local_exp, " ");
     arg_register = strsep(&local_exp, " ");
     arg_value = strsep(&local_exp, " ");
-    free(local_exp_ptr);
     
     if (arg_register == NULL || arg_value == NULL)
     {
         ERROR_MSG("Missing arguments.");
+        free(local_exp_ptr);
         return 0;
     }
     
@@ -474,6 +481,7 @@ set_register_cmd(const char *exp, uc_engine *uc)
     else
     {
         DEBUG_MSG("Invalid register argument.");
+        free(local_exp_ptr);
         return 0;
     }
     
@@ -482,6 +490,7 @@ set_register_cmd(const char *exp, uc_engine *uc)
     if (target_register == UC_X86_REG_INVALID)
     {
         ERROR_MSG("Invalid target register.");
+        free(local_exp_ptr);
         return 0;
     }
     
@@ -489,15 +498,18 @@ set_register_cmd(const char *exp, uc_engine *uc)
     if (errno == EINVAL || errno == ERANGE)
     {
         ERROR_MSG("Invalid value to write.");
+        free(local_exp_ptr);
         return 0;
     }
     
     if (uc_reg_write(uc, target_register, &target_value) != UC_ERR_OK)
     {
         ERROR_MSG("Failed to update register.");
+        free(local_exp_ptr);
         return 0;
     }
     
+    free(local_exp_ptr);
     return 0;
 }
 
@@ -518,12 +530,12 @@ print_guid_cmd(const char *exp, uc_engine *uc)
 
     strsep(&local_exp, " ");
     token = strsep(&local_exp, " ");
-    free(local_exp_ptr);
     
     /* we need a target address */
     if (token == NULL)
     {
         ERROR_MSG("Missing argument(s).");
+        free(local_exp_ptr);
         return 0;
     }
     /* must be in 0x format */
@@ -535,6 +547,7 @@ print_guid_cmd(const char *exp, uc_engine *uc)
     else
     {
         ERROR_MSG("Invalid argument(s).");
+        free(local_exp_ptr);
         return 0;
     }
     
@@ -547,6 +560,7 @@ print_guid_cmd(const char *exp, uc_engine *uc)
                guid_ptr->Data4[0], guid_ptr->Data4[1], guid_ptr->Data4[2], guid_ptr->Data4[3],
                guid_ptr->Data4[4], guid_ptr->Data4[5], guid_ptr->Data4[6], guid_ptr->Data4[7]);
 
+    free(local_exp_ptr);
     return 0;
 }
 

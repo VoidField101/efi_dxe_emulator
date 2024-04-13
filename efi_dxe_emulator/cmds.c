@@ -277,7 +277,7 @@ help_cmd(const char *exp, uc_engine *uc)
     strsep(&local_exp, " ");
     /* extract the help target */
     token = strsep(&local_exp, " ");
-    free(local_exp_ptr);
+
     
     if (token == NULL)
     {
@@ -308,16 +308,20 @@ help_cmd(const char *exp, uc_engine *uc)
         struct cmd_list *cmd = NULL;
         TAILQ_FOREACH(cmd, &g_cmds, entries)
         {
+            OUTPUT_MSG("%s", token);
             if (memcmp(token, cmd->name, cmd->name_len) == 0)
             {
                 OUTPUT_MSG("%s", cmd->help);
+                free(local_exp_ptr);
                 return 0;
             }
         }
         
         ERROR_MSG("Unknown command.");
+        free(local_exp_ptr);
         return 0;
     }
+    free(local_exp_ptr);
     return 0;
 }
 

@@ -156,12 +156,13 @@ info_cmd(const char *exp, uc_engine *uc)
     strsep(&local_exp, " ");
     /* extract subcommand */
     token = strsep(&local_exp, " ");
-    free(local_exp_ptr);
+
     
     /* we need a target address */
     if (token == NULL)
     {
         info_cmd_help();
+        free(local_exp_ptr);
         return 0;
     }
     
@@ -196,8 +197,9 @@ info_cmd(const char *exp, uc_engine *uc)
     else
     {
         info_cmd_help();
+        free(local_exp_ptr);
         return 0;
     }
-    
+    free(local_exp_ptr);
     return 0;
 }
