@@ -24,7 +24,6 @@ SOURCES += ${SRC}/unicorn_hooks.o
 SOURCES += ${SRC}/unicorn_utils.o
 
 SOURCES += ${SRC_INIH}/ini.o
-# SOURCES += ${SRC}/main.o
 
 all: emulator
 
@@ -34,11 +33,18 @@ $(SRC)/%.o: $(SRC)/%.c
 $(SRC_INIH)/%.o: $(SRC_INIH)/%.c
 	${CC} ${CFLAGS} -o $@ -c $<
 
+linenoise-ng/build/liblinenoise.a:
+	mkdir -p linenoise-ng/build
+	cd linenoise-ng/build; cmake .. ; make -j$(nproc)
 
-%: $(SRC)%.o
-	$(CC) $(CFLAGS) -o $* $(LIBS) $<
+capstone/libcapstone.a:
+	cd capstone; UNICORN_ARCHS="x86" CAPSTONE_STATIC=yes CAPSTONE_SHARED=no ./make.sh
 
-emulator: ${SOURCES}
+unicorn/libunicorn.a:
+	cd unicorn; UNICORN_ARCHS="x86" UNICORN_STATIC=yes UNICORN_SHARED=no ./make.sh
+
+
+emulator: ${SOURCES} ${LIBS}
 	$(CC) $(LDFLAGS) $(CFLAGS) -o $@ $(SOURCES) $(SRC)/main.c $(LIBS)
 	chmod +x emulator
 

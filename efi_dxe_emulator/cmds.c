@@ -308,7 +308,6 @@ help_cmd(const char *exp, uc_engine *uc)
         struct cmd_list *cmd = NULL;
         TAILQ_FOREACH(cmd, &g_cmds, entries)
         {
-            OUTPUT_MSG("%s", token);
             if (memcmp(token, cmd->name, cmd->name_len) == 0)
             {
                 OUTPUT_MSG("%s", cmd->help);
