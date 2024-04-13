@@ -146,7 +146,7 @@ del_breakpoint(uint64_t target_addr)
 {
     struct breakpoint *cur_entry = NULL;
     struct breakpoint *tmp_entry = NULL;
-    TAILQ_FOREACH_SAFE(cur_entry, &g_breakpoints, entries, tmp_entry)
+    TAILQ_FOREACH(cur_entry, &g_breakpoints, entries)
     {
         if (target_addr >= cur_entry->address && target_addr <= (cur_entry->address + cur_entry->length))
         {

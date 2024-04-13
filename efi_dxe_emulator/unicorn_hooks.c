@@ -142,9 +142,8 @@ int
 del_unicorn_hook(uc_engine *uc, int type, uint64_t begin, uint64_t end)
 {
     struct unicorn_hooks *cur_hook = NULL;
-    struct unicorn_hooks *tmp_hook = NULL;
     
-    TAILQ_FOREACH_SAFE(cur_hook, &g_hooks, entries, tmp_hook)
+    TAILQ_FOREACH(cur_hook, &g_hooks, entries)
     {
         if (cur_hook->type == type &&
             cur_hook->begin == begin &&
